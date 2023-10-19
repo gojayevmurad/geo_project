@@ -3,30 +3,24 @@ import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import { ReactTabulator, reactFormatter } from "react-tabulator";
 import { EditFilled, PushpinFilled, DeleteFilled } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
 import { Button } from "antd";
+import { toast } from "react-hot-toast";
 
-import { setGeoLocationData } from "../../redux/geoLocationSlice";
 import AddNewData from "../../components/AddNewData";
-
-import "react-tabulator/css/tabulator_bootstrap5.css";
-import "./dashboard.scss";
 import DieChart from "../../components/DieChart";
 import BarChart from "../../components/BarChart";
 import Map from "../../components/Map";
-import WktToMap from "../../components/WktToMap/WktToMap";
-import {
-  drawWktFeature,
-  removeLayer,
-  validateGeometry,
-} from "../../components/Map/MapHelper";
+import { drawWktFeature, removeLayer } from "../../components/Map/MapHelper";
+
+import "react-tabulator/css/tabulator_bootstrap5.css";
+import "./dashboard.scss";
 
 const Dashboard = () => {
   const [map, setMap] = useState(null);
   // all geo locations data
   const [data, setData] = useState([]);
-  // filtered data; look => dataFilteredHandler
-  const [filteredData, setFilteredData] = useState([]);
+
+  const [filteredData, setFilteredData] = useState([]); // filtered data; look => dataFilteredHandler
 
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -68,7 +62,7 @@ const Dashboard = () => {
   };
   const deleteGeoItemWithId = (id) => {
     setData(data.filter((geoItem) => geoItem.id != id));
-    alert(`Item was deleted - ID: ${id}`);
+    toast.error(`Item was deleted - ID: ${id}`);
   };
   const getGeoItemWithId = (id) => data.find((geoItem) => geoItem.id == id);
   //#endregion
@@ -169,6 +163,8 @@ const Dashboard = () => {
 
   // tabulator get filtered data event handler
   const dataFilteredHandler = (filters, rows) => {
+    setShowFirstAnalysis(false);
+    setShowSecondAnalysis(false);
     if (filters.length == 0) return;
 
     setFilteredData(
@@ -215,7 +211,7 @@ const Dashboard = () => {
                 data={data}
                 options={{
                   pagination: true,
-                  paginationSize: 10,
+                  paginationSize: 8,
                   placeholder: "No Data Set",
                 }}
                 events={{
