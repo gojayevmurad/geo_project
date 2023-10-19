@@ -1,0 +1,48 @@
+.dashboard_page {
+  .content {
+    &--header {
+      margin: 20px 0;
+      .load_file {
+        cursor: pointer !important;
+        position: relative;
+        margin-right: 10px;
+        #file-input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: pointer !important;
+        }
+      }
+    }
+    &--body {
+      display: grid;
+      grid-template-columns: 1fr 0.5fr;
+      div.analysis {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+      }
+      &__charts {
+        height: 400px;
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+      &__map {
+        width: 400px;
+      }
+    }
+  }
+}
+.tabulator {
+  font-size: 13px;
+  .tabulator-page {
+    min-width: 45px;
+  }
+  .tabulator-row {
+    font-size: 13px;
+  }
+}
